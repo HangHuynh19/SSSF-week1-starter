@@ -1,3 +1,4 @@
+/* eslint-disable node/no-unpublished-import */
 import request from 'supertest';
 import expect from 'expect';
 import {User} from '../src/interfaces/User';

@@ -43,7 +43,7 @@ describe('GET /api/v1', () => {
   });
 
   // test create user
-  let token: string = '';
+  let token = '';
   let user: UserWithToken;
   it('should create a new user', async () => {
     user = await postUser(app, {
@@ -147,6 +147,8 @@ describe('GET /api/v1', () => {
 
   // test modify user's cat as admin
   it('should modify a cat as admin', async () => {
+    console.log('toke in test', token);
+    console.log('catID in test', catID);
     await adminPutCat(app, token, catID);
   });
 

@@ -77,7 +77,7 @@ const makeThumbnail = async (
   next: NextFunction
 ) => {
   try {
-    console.log(req.file?.path);
+    console.log('file name', req.file?.path);
     await sharp(req.file?.path)
       .resize(160, 160)
       .png()

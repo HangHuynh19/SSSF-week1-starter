@@ -1,4 +1,6 @@
+// eslint-disable-next-line node/no-unpublished-import
 import request from 'supertest';
+// eslint-disable-next-line node/no-unpublished-import
 import expect from 'expect';
 import {User} from '../src/interfaces/User';
 import ErrorResponse from '../src/interfaces/ErrorResponse';
@@ -63,7 +65,7 @@ const postUser = (
           reject(err);
         } else {
           expect(response.body).toHaveProperty('message');
-          expect(response.body).toHaveProperty('user_id');
+          expect(response.body).toHaveProperty('id');
           resolve(response.body);
         }
       });

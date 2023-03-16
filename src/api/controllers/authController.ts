@@ -9,10 +9,12 @@ const login = (req: Request, res: Response, next: NextFunction) => {
     'local',
     {session: false},
     (err: Error, user: Partial<User>) => {
+      console.log('user', user);
       if (err || !user) {
         next(new CustomError('Invalid username/password', 200));
         return;
       }
+
       req.login(user, {session: false}, (error) => {
         if (error) {
           next(new CustomError('Login error', 400));
