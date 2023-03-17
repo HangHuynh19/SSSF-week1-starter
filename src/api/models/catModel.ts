@@ -80,13 +80,13 @@ const updateCat = async (
   userId: number,
   role: string
 ): Promise<boolean> => {
-  const catBeforeModified: Cat = await getCat(id);
-  console.log(role === 'admin');
-
-  if (
-    role === 'admin' ||
-    userId === (catBeforeModified.owner as User).user_id
-  ) {
+  const [rows] = await promisePool.execute<GetCat[]>(
+    `
+    SELECT * FROM sssf_cat LEFT JOIN sssf_user ON sssf_user.user_id = sssf_cat.owner WHERE cat_id = ?
+    `,
+    [id]
+  );
+  if (role === 'admin' || userId === rows[0].owner) {
     const [headers] = await promisePool.execute<ResultSetHeader>(
       `
       UPDATE sssf_cat
