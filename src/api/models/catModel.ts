@@ -80,20 +80,39 @@ const updateCat = async (
   userId: number,
   role: string
 ): Promise<boolean> => {
+  if (!Object.keys(cat).length) {
+    throw new CustomError('No cat data provided', 400);
+  }
+
   const [rows] = await promisePool.execute<GetCat[]>(
     `
-    SELECT * FROM sssf_cat LEFT JOIN sssf_user ON sssf_user.user_id = sssf_cat.owner WHERE cat_id = ?
+    SELECT * 
+    FROM sssf_cat 
+    LEFT JOIN sssf_user 
+    ON sssf_user.user_id = sssf_cat.owner 
+    WHERE cat_id = ?
     `,
     [id]
   );
+
+  let rawSql = `
+  UPDATE sssf_cat
+  `;
+  const values = [];
+
+  for (const key in cat) {
+    rawSql += !values.length ? 'SET ' + key + ' = ?, ' : key + ' = ?, ';
+    values.push(cat[key as keyof PutCat]);
+  }
+
+  rawSql = rawSql.slice(0, rawSql.length - 2);
+  rawSql += ' WHERE cat_id = ?';
+  values.push(id);
+
   if (role === 'admin' || userId === rows[0].owner) {
     const [headers] = await promisePool.execute<ResultSetHeader>(
-      `
-      UPDATE sssf_cat
-      SET cat_name = ?
-      WHERE cat_id = ?
-      `,
-      [cat.cat_name, id]
+      rawSql,
+      values
     );
     if (headers.affectedRows === 0) {
       throw new CustomError('No cats updated', 400);

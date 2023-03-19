@@ -1,4 +1,6 @@
+// eslint-disable-next-line node/no-unpublished-import
 import request from 'supertest';
+// eslint-disable-next-line node/no-unpublished-import
 import expect from 'expect';
 import {User} from '../src/interfaces/User';
 

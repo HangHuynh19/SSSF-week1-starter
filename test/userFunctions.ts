@@ -65,7 +65,7 @@ const postUser = (
           reject(err);
         } else {
           expect(response.body).toHaveProperty('message');
-          expect(response.body).toHaveProperty('id');
+          expect(response.body).toHaveProperty('user_id');
           resolve(response.body);
         }
       });

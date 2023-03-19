@@ -61,11 +61,14 @@ const userPost = async (
     user.password = bcrypt.hashSync(user.password, salt);
     const result = await addUser(user);
 
-    const message: MessageResponse = {
+    /*const message: MessageResponse = {
       message: 'user added',
       id: result,
-    };
-    res.json(message);
+    };*/
+    res.json({
+      message: 'user added',
+      user_id: result,
+    });
   } catch (error) {
     next(error);
   }
